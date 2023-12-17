@@ -23,7 +23,7 @@ namespace MyBlog.Controllers
 
         public IActionResult Detail(int id)
         {
-            //qua dobbiamo prendere il singolo post
+            //qua dobbiamo prendere il singolo post 
             using var ctx = new BlogContext();
             var post = ctx.Posts.SingleOrDefault();
 
