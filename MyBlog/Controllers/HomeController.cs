@@ -21,7 +21,7 @@ namespace MyBlog.Controllers
             return View(posts);
         }
 
-        public IActionResult Detail(int id)
+        public IActionResult Detail(int id) 
         {
             //qua dobbiamo prendere il singolo post 
             using var ctx = new BlogContext();
