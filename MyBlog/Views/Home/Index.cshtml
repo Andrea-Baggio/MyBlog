@@ -1,0 +1,46 @@
+﻿@model Post[]
+
+@{
+    ViewData["Title"] = "Posts";
+    var posts = Model;
+}
+
+@if (posts.Length == 0)
+{
+    <h5>Nothing to display...</h5>
+}
+else
+{
+    <div class="container mt-4">
+        <h3 class="text-center mb-4">Post's Index</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Image</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var post in posts)
+                {
+                    <tr>
+                        <td>@post.Id</td>
+                        <td>
+                            <a href="@Url.Action("Detail", "Home", new{Id = post.Id})"> 
+                                @post.Title
+                            </a>
+                        </td>
+                        <td>@post.Description</td>
+                        <td>
+                            <img src="@post.Image" alt="Post Image" class="img-fluid" style="max-width: 100px;" />
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+

@@ -1,0 +1,16 @@
+﻿@model Post
+
+@{
+    ViewData["Title"] = "Detail";
+    var post = Model;
+}
+
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title">@post.Title</h2>
+            <p class="card-text">@post.Description</p>
+            <img src="@post.Image" alt="Post Image" class="img-fluid" style="max-width: 100%;" />
+        </div>
+    </div>
+</div>
