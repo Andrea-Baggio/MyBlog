@@ -12,31 +12,20 @@
 else
 {
     <div class="container mt-4">
-        <h3 class="text-center mb-4">Post's Index</h3>
-        <table class="table table-striped fixed-width-table">
+        <table class="table table-striped fixed-width-table" style="margin-bottom: 100px;">
             <thead>
-                <tr>
-                    <th>ID</th>
+                <tr>                    
                     <th>Title</th>
-                    <th>Description</th>
+                    <th style="padding-left: 50px;">Description</th>
                     <th>Image</th>
+                    <th>Actions</th> 
+                    <th></th> 
                 </tr>
             </thead>
             <tbody>
                 @foreach (var post in posts)
                 {
-                    <tr>
-                        <td>@post.Id</td>
-                        <td>
-                            <a href="@Url.Action("Detail", "Home", new{Id = post.Id})">
-                                @post.Title
-                            </a>
-                        </td>
-                        <td>@post.Description</td>
-                        <td>
-                            <img src="@post.Image" alt="Post Image" class="img-fluid" style="max-width: 100px;" />
-                        </td>
-                    </tr>
+                    @await Html.PartialAsync("_PostRow", post);
                 }
             </tbody>
         </table>
@@ -44,8 +33,6 @@ else
 }
 
 <a href="@Url.Action("Create", "Home")" class="btn btn-primary rounded-circle d-flex justify-content-center align-items-center" style="position: fixed; bottom: 5%; right: 5%; width: 60px; height: 60px; background-color: white; border: 1px solid #333;">
-    <span style="color: black; font-size: 2.5em; position: absolute; bottom: 5%; right: 25%;">+</span>
+    <span style="color: black; font-size: 2.5em; position: absolute; bottom: 5%; right: 26%;"><i class="fa-light fa-plus"></i></span>
 </a>
-
-
 

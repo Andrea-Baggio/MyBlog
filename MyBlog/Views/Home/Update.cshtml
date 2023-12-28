@@ -1,0 +1,64 @@
+﻿@model Post
+
+@{
+    ViewData["Title"] = "Edit post";
+}
+
+<div class="container mt-4">
+    <h2 class="row justify-content-center">Modifica il post</h2>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <form asp-action="Update" asp-controller="Home" method="post" class="border border-gray p-4 mt-3">
+                    @Html.AntiForgeryToken()
+
+                    <div class="mb-3">
+                        <label asp-for="Title" class="form-label">Titolo</label>
+                        <input asp-for="Title" class="form-control" placeholder="Modifica il titolo">
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Description" class="form-label">Descrizione</label>
+                        <textarea asp-for="Description" class="form-control" rows="3" placeholder="Modifica la descrizione"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Image" class="form-label">URL dell'immagine</label>
+                        <input asp-for="Image" class="form-control" placeholder="Modifica l'URL dell'immagine">
+                        <!-- Nessun messaggio di errore per l'URL dell'immagine -->
+                    </div>
+                    <button type="submit" class="mt-2">Salva</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function addCharacterCounter(inputElement, maxCount) {
+            const counter = document.createElement('span');
+            counter.textContent = '0/' + maxCount;
+            counter.className = 'text-secondary character-counter';
+            inputElement.parentNode.insertBefore(counter, inputElement.nextSibling);
+
+            inputElement.addEventListener('input', function () {
+                const count = inputElement.value.length;
+                counter.textContent = count + '/' + maxCount;
+            });
+
+            inputElement.dispatchEvent(new Event('input')); // Aggiorna il conteggio all'avvio
+        }
+
+        const titleInput = document.querySelector('input[name="Title"]');
+        addCharacterCounter(titleInput, 50);
+
+        const descriptionInput = document.querySelector('textarea[name="Description"]');
+        addCharacterCounter(descriptionInput, 1000);
+    </script>
+}
+
+
+
+

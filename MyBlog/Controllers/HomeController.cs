@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using MyBlog.Models;
 using System.Diagnostics;
 
@@ -20,7 +22,7 @@ namespace MyBlog.Controllers
 
             // Imposta le lunghezze massime da mostrare nella view
             int titleMaxLenght = 25; 
-            int DescriptionMaxLenght = 90; 
+            int DescriptionMaxLenght = 300; 
 
             foreach (var post in posts)
             {
@@ -79,6 +81,63 @@ namespace MyBlog.Controllers
             int postId = post.Id; 
             return RedirectToAction("Detail", "Home", new { Id = postId });
             //return RedirectToAction("Index");
+        }
+
+        public IActionResult Update(int id)
+        {
+            using var ctx = new BlogContext();
+            var post = ctx.Posts.FirstOrDefault(p => p.Id == id);
+
+            if (post is null)
+            {
+                return NotFound($"This element doesn't exist, spiaze");
+            }
+
+            return View(post);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Update(int id, Post post)
+        {
+            if (!ModelState.IsValid) 
+            {
+                return View(post);
+            }
+
+            var ctx = new BlogContext();
+            var postToUpdate = ctx.Posts.FirstOrDefault(p => p.Id == id);
+
+            if (postToUpdate is null)
+            {
+                return NotFound($"This element doesn't exist, spiaze");
+            }
+
+            //così EF si prende le cose che sono state modificate e le aggiorna
+            postToUpdate.Title = post.Title;
+            postToUpdate.Description = post.Description;
+            postToUpdate.Image = post.Image;
+
+            ctx.SaveChanges();
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(int id)
+        {
+            using var ctx = new BlogContext();
+            var postToDelete = ctx.Posts.FirstOrDefault(p =>p.Id == id);
+
+            if (postToDelete is null)
+            {
+                return NotFound("Not found");
+            }
+
+            ctx.Posts.Remove(postToDelete);
+            ctx.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

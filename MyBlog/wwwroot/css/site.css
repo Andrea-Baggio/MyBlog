@@ -22,6 +22,23 @@ a {
     text-decoration: none;
 }
 
+#edit-icon, 
+#delete-icon {
+    color: dimgray;
+    padding: 7px;
+    font-size: 19px;
+}
+#edit-icon:hover {
+    color: #CC7722;
+}
+#delete-icon:hover {
+    color: #B30000;
+}
+
+#delete-icon {
+    margin-left: -25px;
+}
+
 button {
     color: black;
     font-size: 1.1em;

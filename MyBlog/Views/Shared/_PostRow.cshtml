@@ -1,0 +1,76 @@
+﻿@model Post
+
+@{
+    var post = Model;
+}
+
+<tr>
+    <td>
+        <a href="@Url.Action("Detail", "Home", new{Id = post.Id})">
+            @post.Title
+        </a>
+    </td>
+    <td style="padding-left: 50px;">@post.Description</td>
+    <td>
+        <img src="@post.Image" alt="Post Image" class="img-fluid" style="max-height: 150px;" />
+    </td>
+
+    @*actions*@
+    <td class="action-icons">
+        <a href="@Url.Action("Update", "Home", new{Id = post.Id})">
+            <i class="fa-solid fa-pen-to-square" id="edit-icon"></i>
+        </a>
+    </td>
+    <td class="action-icons">
+        <form id="deleteForm_@post.Id" asp-action="Delete" asp-controller="Home" asp-route-id="@post.Id">
+            @Html.AntiForgeryToken()
+
+            <button type="button" class="delete-post-btn" style="border: none; background-color: transparent;">
+                <i class="fa-solid fa-trash" id="delete-icon"></i>
+            </button>
+        </form>
+    </td>
+</tr>
+
+@*conferma eliminazione*@
+<div id="deleteConfirmationModal_@post.Id" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteConfirmationModalLabel">Conferma eliminazione</h5>
+            </div>
+            <div class="modal-body">
+                Sicuro di voler eliminare il post?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="cancelDeleteBtn_@post.Id" data-dismiss="modal">No</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteBtn_@post.Id">Sì</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.querySelectorAll('.delete-post-btn').forEach(btn => {
+        btn.addEventListener('click', function (e) {
+            e.preventDefault();
+            const postId = this.closest('form').getAttribute('id').split('_')[1];
+            const modal = document.getElementById(`deleteConfirmationModal_${postId}`);
+            $(modal).modal('show');
+
+            const confirmBtn = document.getElementById(`confirmDeleteBtn_${postId}`);
+            const cancelBtn = document.getElementById(`cancelDeleteBtn_${postId}`);
+
+            confirmBtn.addEventListener('click', function () {
+                $(modal).modal('hide');
+                document.getElementById(`deleteForm_${postId}`).submit();
+            });
+
+            cancelBtn.addEventListener('click', function () {
+                $(modal).modal('hide');
+            });
+        });
+    });
+</script>
+
+
